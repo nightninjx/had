@@ -1,0 +1,67 @@
+package com.example.task4;
+
+ import android.app.Activity;
+ import android.app.AlertDialog;
+ import android.content.DialogInterface;
+ import android.os.Bundle;
+ import android.view.View;
+ import android.webkit.ServiceWorkerWebSettings;
+ import android.webkit.WebView;
+ import android.widget.Button;
+ import android.widget.CheckBox;
+ import android.widget.CompoundButton;
+ import android.widget.Toast;
+ import android.webkit.WebViewClient;
+ import android.webkit.WebSettings;
+
+ public class MainActivity extends Activity {
+
+ private WebView webView;
+ private CheckBox checkBox;
+ private Button showDialogButton;
+
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+
+ webView = findViewById(R.id.webView);
+ checkBox = findViewById(R.id.checkBox);
+ showDialogButton = findViewById(R.id.showDialogButton);
+ WebSettings webSettings = webView.getSettings();
+ webView.setWebViewClient(new WebViewClient());
+ webView.loadUrl("https://www.example.com");
+ webView.clearCache(true);
+ webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+
+ checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+ @Override
+ public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+ if (isChecked) {
+ Toast.makeText(MainActivity.this, "Feature Enabled",
+Toast.LENGTH_SHORT).show();
+ } else {
+ Toast.makeText(MainActivity.this, "Feature Disabled",
+Toast.LENGTH_SHORT).show();
+ }
+ }
+ });
+
+ showDialogButton.setOnClickListener(new View.OnClickListener() {
+ @Override
+ public void onClick(View v) {
+ AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+ builder.setTitle("Alert Dialog");
+ builder.setMessage("This is a simple AlertDialog.");
+ builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+ public void onClick(DialogInterface dialog, int id) {
+ dialog.dismiss();
+ }
+ });
+ AlertDialog alertDialog = builder.create();
+ alertDialog.show();
+ }
+ });
+ }
+ }
